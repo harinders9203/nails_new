@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rajvir Nail Artist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    :root {
+      --pink:    #f472b6;
+      --rose:    #fb7185;
+      --lilac:   #c084fc;
+      --peach:   #fda4af;
+      --cream:   #fff1f5;
+      --soft:    #ffe4f0;
+      --text:    #5b1f3a;
+      --muted:   #c77da5;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 60px 20px 80px;
+      font-family: 'Lato', sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #ffe0f7 0%, #fce7f3 30%, #ede9fe 60%, #fdf2f8 100%);
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* ── Floating petals background ── */
+    .petals { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+    .petal {
+      position: absolute;
+      border-radius: 50% 0 50% 0;
+      opacity: 0.18;
+      animation: floatPetal linear infinite;
+    }
+    @keyframes floatPetal {
+      0%   { transform: translateY(-60px) rotate(0deg); opacity: 0; }
+      10%  { opacity: 0.2; }
+      90%  { opacity: 0.15; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ── Card ── */
+    .card {
+      position: relative; z-index: 1;
+      width: 100%; max-width: 440px;
+      background: rgba(255,255,255,0.55);
+      backdrop-filter: blur(18px);
+      border-radius: 32px;
+      border: 1.5px solid rgba(255,182,220,0.5);
+      box-shadow: 0 8px 48px rgba(244,114,182,0.18), 0 2px 12px rgba(192,132,252,0.12);
+      padding: 44px 32px 48px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      animation: fadeUp .8s cubic-bezier(.22,1,.36,1) both;
+    }
+    @keyframes fadeUp {
+      from { opacity:0; transform: translateY(32px); }
+      to   { opacity:1; transform: translateY(0); }
+    }
+
+    /* ── Avatar ── */
+    .avatar-wrap {
+      position: relative;
+      width: 100px; height: 100px;
+      margin-bottom: 20px;
+    }
+    .avatar-ring {
+      position: absolute; inset: -5px;
+      border-radius: 50%;
+      background: conic-gradient(var(--pink), var(--lilac), var(--rose), var(--pink));
+      animation: spin 4s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .avatar-inner {
+      position: relative;
+      width: 100%; height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fda4af, #c084fc);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.6rem;
+      border: 4px solid #fff;
+      z-index: 1;
+    }
+
+    /* ── Name & bio ── */
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: .02em;
+      color: var(--text);
+      text-align: center;
+    }
+    .handle {
+      font-size: .85rem;
+      color: var(--muted);
+      margin-top: 4px;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+    .bio {
+      font-size: .9rem;
+      color: var(--muted);
+      margin-top: 10px;
+      text-align: center;
+      line-height: 1.6;
+      font-style: italic;
+    }
+
+    /* ── Divider ── */
+    .divider {
+      width: 60px; height: 2px;
+      background: linear-gradient(90deg, var(--pink), var(--lilac));
+      border-radius: 2px;
+      margin: 22px 0 26px;
+    }
+
+    /* ── BOOK APPOINTMENT CTA ── */
+    .book-cta {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      width: 100%;
+      padding: 16px 24px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-family: 'Lato', sans-serif;
+      font-weight: 400;
+      font-size: .95rem;
+      letter-spacing: .06em;
+      color: #fff;
+      background: linear-gradient(135deg, #f472b6, #c084fc, #fb7185);
+      background-size: 200% 200%;
+      box-shadow: 0 8px 32px rgba(244,114,182,0.45), 0 2px 8px rgba(192,132,252,0.3);
+      margin-bottom: 24px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp .8s .02s cubic-bezier(.22,1,.36,1) both;
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+    }
+    .book-cta::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .book-cta:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 14px 40px rgba(244,114,182,0.5); }
+    .book-cta:hover::before { opacity: 1; }
+    .book-cta:active { transform: scale(.98); }
+    .book-cta .book-icon {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .book-cta .book-label { flex: 1; text-align: left; }
+    .book-cta .book-label strong { display: block; font-size: 1rem; font-weight: 700; }
+    .book-cta .book-label span  { display: block; font-size: .75rem; opacity: .85; margin-top: 1px; }
+
+    /* ── 2-column row ── */
+    .link-row {
+      width: 100%;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 14px;
+      animation: fadeUp .8s .08s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    /* ── Links ── */
+    .links { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+    .link-btn {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 20px;
+      border-radius: 18px;
+      text-decoration: none;
+      font-weight: 400;
+      font-size: .95rem;
+      letter-spacing: .02em;
+      color: #fff;
+      position: relative;
+      overflow: hidden;
+      transition: transform .2s cubic-bezier(.22,1,.36,1), box-shadow .2s;
+      animation: fadeUp .8s cubic-bezier(.22,1,.36,1) both;
+    }
+    /* compact variant for 2-col grid */
+    .link-btn.compact {
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 16px 12px;
+      text-align: center;
+      border-radius: 18px;
+    }
+    .link-btn.compact .icon {
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+    }
+    .link-btn.compact .label { font-size: .82rem; font-weight: 700; }
+    .link-btn.compact .sub   { font-size: .68rem; opacity: .85; margin-top: 1px; }
+
+    .link-btn::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity .2s;
+    }
+    .link-btn:hover { transform: translateY(-3px) scale(1.02); }
+    .link-btn:hover::before { opacity: 1; }
+    .link-btn:active { transform: scale(.98); }
+
+    .link-btn .icon {
+      width: 38px; height: 38px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.22);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+    }
+    .link-btn .label { flex: 1; }
+    .link-btn .arrow { font-size: .85rem; opacity: .7; }
+
+    /* Individual brand gradients */
+    .btn-instagram { background: linear-gradient(135deg,#f9a8d4,#ec4899,#a855f7); box-shadow: 0 6px 24px rgba(236,72,153,.3); }
+    .btn-tiktok    { background: linear-gradient(135deg,#fb7185,#1a1a2e,#06b6d4); box-shadow: 0 6px 24px rgba(6,182,212,.25); }
+    .btn-facebook  { background: linear-gradient(135deg,#93c5fd,#1d4ed8); box-shadow: 0 6px 24px rgba(29,78,216,.25); }
+    .btn-whatsapp  { background: linear-gradient(135deg,#86efac,#15803d); box-shadow: 0 6px 24px rgba(21,128,61,.3); }
+    .btn-maps      { background: linear-gradient(135deg,#fda4af,#f43f5e,#e11d48); box-shadow: 0 6px 24px rgba(244,63,94,.3); }
+
+    /* stagger delays */
+    .link-btn:nth-child(1)  { animation-delay:.05s }
+    .link-btn:nth-child(2)  { animation-delay:.10s }
+    .link-btn:nth-child(3)  { animation-delay:.15s }
+    .link-btn:nth-child(4)  { animation-delay:.20s }
+    .link-btn:nth-child(5)  { animation-delay:.25s }
+
+    /* ── Footer ── */
+    .footer {
+      position: relative; z-index: 1;
+      margin-top: 36px;
+      font-size: .78rem;
+      color: var(--muted);
+      letter-spacing: .05em;
+      text-align: center;
+    }
+    .footer span { color: var(--pink); }
+
+    /* ── Sparkle deco ── */
+    .sparkle {
+      position: fixed; pointer-events: none; z-index: 0;
+      font-size: 1.4rem;
+      opacity: .22;
+      animation: twinkle 3s ease-in-out infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity:.15; transform: scale(1) rotate(0deg); }
+      50%      { opacity:.4;  transform: scale(1.3) rotate(15deg); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Floating petals -->
+<div class="petals" id="petals"></div>
+
+<!-- Sparkles -->
+<div class="sparkle" style="top:8%; left:5%;  animation-delay:0s">✨</div>
+<div class="sparkle" style="top:15%; right:7%; animation-delay:1s">🌸</div>
+<div class="sparkle" style="top:60%; left:3%; animation-delay:2s">💫</div>
+<div class="sparkle" style="top:75%; right:5%; animation-delay:.5s">🌷</div>
+<div class="sparkle" style="bottom:12%; left:8%; animation-delay:1.5s">✨</div>
+
+<!-- Main card -->
+<div class="card">
+
+  <!-- Avatar -->
+<div class="avatar-wrap">
+    <div class="avatar-ring"></div>
+    <div class="avatar-inner">
+        <img src="images/unnamed (29).jpg" alt="Rajvir" style="width: 90%; height: 90%; object-fit: cover; border-radius: 50%; object-position: center;">
+    </div>
+</div>
+
+  <h1>Rajvir Nail Artist</h1>
+  <div class="handle">@Rajvirnailartist</div>
+  <p class="bio">Bespoke nail artistry · Wyndham Vale, VIC 🇦🇺<br>Gel · Acrylics · Nail Art · Extensions 🎀</p>
+
+  <div class="divider"></div>
+
+  <!-- ── BOOK APPOINTMENT CTA ── -->
+  <a href="https://wa.me/+61476207264?text=Is+Appointments+Available?" target="_blank" rel="noopener" class="book-cta">
+    <div class="book-icon">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>
+      </svg>
+    </div>
+    <div class="book-label">
+      <strong>Book Appointment</strong>
+      <span>Reserve your session ✨</span>
+    </div>
+    <span style="font-size:1.1rem">→</span>
+  </a>
+
+  <!-- ── 2-column: WhatsApp + Maps ── -->
+  <div class="link-row">
+
+    <a href="https://wa.me/+61476207264?text=Hello" target="_blank" rel="noopener" class="link-btn btn-whatsapp compact">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/>
+        </svg>
+      </div>
+      <span class="label">WhatsApp</span>
+      <span class="sub">Message us</span>
+    </a>
+
+    <a href="https://maps.app.goo.gl/meaaKWCMQ5t6kPNY9" target="_blank" rel="noopener" class="link-btn btn-maps compact">
+      <div class="icon">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+      </div>
+      <span class="label">Find Us</span>
+      <span class="sub">Get directions</span>
+    </a>
+
+  </div>
+
+  <!-- ── Full-width social links ── -->
+  <div class="links">
+
+    <a href="https://www.instagram.com/rajvir_nail_artist/" target="_blank" rel="noopener" class="link-btn btn-instagram">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </div>
+      <span class="label">Instagram</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="https://www.tiktok.com/@nailsbyrajvir1" target="_blank" rel="noopener" class="link-btn btn-tiktok">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+          <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.73a8.18 8.18 0 0 0 4.78 1.52V6.79a4.86 4.86 0 0 1-1.01-.1z"/>
+        </svg>
+      </div>
+      <span class="label">TikTok</span>
+      <span class="arrow">→</span>
+    </a>
+
+    <a href="https://www.facebook.com/share/14YduV4bAFo/" target="_blank" rel="noopener" class="link-btn btn-facebook">
+      <div class="icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="#fff">
+          <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+        </svg>
+      </div>
+      <span class="label">Facebook</span>
+      <span class="arrow">→</span>
+    </a>
+
+  </div>
+</div>
+
+<p class="footer">made with <span>♥</span> · © 2026 Rajvir Nail Artist</p>
+
+<script>
+  // Generate floating petals
+  const petalColors = ['#f9a8d4','#fbcfe8','#c084fc','#fda4af','#e879f9','#f0abfc'];
+  const container = document.getElementById('petals');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = Math.random() * 18 + 8;
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      background:${petalColors[Math.floor(Math.random()*petalColors.length)]};
+      animation-duration:${Math.random()*12+8}s;
+      animation-delay:${Math.random()*10}s;
+    `;
+    container.appendChild(p);
+  }
+
+  // Cursor sparkle trail
+  document.addEventListener('mousemove', e => {
+    const s = document.createElement('div');
+    s.style.cssText = `position:fixed;left:${e.clientX-6}px;top:${e.clientY-6}px;
+      width:10px;height:10px;border-radius:50%;pointer-events:none;z-index:9999;
+      background:radial-gradient(circle,#f9a8d4,#c084fc);
+      animation:sparkFade .6s ease forwards;`;
+    document.body.appendChild(s);
+    setTimeout(()=>s.remove(),600);
+  });
+
+  const style = document.createElement('style');
+  style.textContent = `@keyframes sparkFade{0%{opacity:.8;transform:scale(1)}100%{opacity:0;transform:scale(0)}}`;
+  document.head.appendChild(style);
+</script>
+</body>
+</html>
